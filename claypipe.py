@@ -70,6 +70,11 @@ class Content:
             self.note = self.url
             self.url = self.url.replace(parsed.path, self.path)
 
+        if self.path == '':
+            self.url = f'{self.url}/'
+            self.path = '/'
+            self.parent = ''
+
         if self.path.endswith('/'):
             self.filetype = 'html'
         else:
@@ -100,7 +105,7 @@ class Content:
             traceback.print_exc(file=sys.stdout)
             return None
     
-    def retrieve(self, interval, domains, headers, ignoreurl, rels):
+    def retrieve(self, interval, domains, headers, ignoreurl, rels, indexfiles):
         if self.status:
             return
 
@@ -136,6 +141,10 @@ class Content:
 
         time.sleep(interval)
         resp = self.request('GET', headers)
+
+        if not resp:
+            return
+
         self.status = resp.status
 
         data = resp.read()
@@ -149,6 +158,15 @@ class Content:
         urls = []
 
         for link in parser.links:
+            if link in indexfiles:
+                link = ''
+            else:
+                filename = re.sub('.*\/', '', re.sub('[#].*', '', link))
+                directory = re.sub('\/[^/]*$', '/', re.sub('[#?].*', '', link))
+
+                if filename in indexfiles:
+                    link = directory
+
             content = Content(link, base=self)
 
             if content.url in urls:
@@ -158,7 +176,8 @@ class Content:
             self.links.append(content)
 
 class Crawler:
-    def __init__(self, start, db, domains, headers, interval, ignoreurl, linkrels):
+    def __init__(self, start, db, domains, headers,
+                 interval, ignoreurl, linkrels, indexfiles):
         self.start = start
         self.urls = [self.start.url]
         self.contents = [self.start]
@@ -168,9 +187,11 @@ class Crawler:
         self.interval = interval
         self.ignoreurl = ignoreurl
         self.linkrels = linkrels
+        self.indexfiles = indexfiles
 
     def retrieve(self, content):
-        content.retrieve(self.interval, self.domains, self.headers, self.ignoreurl, self.linkrels)
+        content.retrieve(self.interval, self.domains, self.headers,
+                         self.ignoreurl, self.linkrels, self.indexfiles)
         print(f'{content.url}\t{content.status}\t{content.filetype}\t{content.note}')
 
         try:
@@ -269,7 +290,8 @@ if __name__ == '__main__':
         config['headers'],
         config['interval'],
         config['ignore-url'],
-        config['targeted-link-rel']
+        config['targeted-link-rel'],
+        config['index-files']
     )
 
     crawler.crawl()

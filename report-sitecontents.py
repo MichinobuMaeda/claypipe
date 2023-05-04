@@ -11,11 +11,11 @@ for row in cur.execute('''
 SELECT url
      , status
      , filetype
-     , location
+     , note
   FROM contents
  WHERE url LIKE 'https://jsa.gr.jp%'
     OR url LIKE 'http://www.jsa.gr.jp%'
  ORDER BY url
 '''):
-    (url, status, filetype, location) = row
-    print(f'{url}\t{status}\t{filetype}\t{location}')
+    (url, status, filetype, note) = row
+    print(f'{url}\t{status}\t{filetype}\t{note}')

@@ -6,9 +6,11 @@ config = {
         'https://validator.w3.org/check/referer',
         'https://jigsaw.w3.org/css-validator/check/referer',
         '/wp-admin/',
+        'https://dokuwiki.org/',
         'https://www.dokuwiki.org/donate',
         '/playground/',
         '/lib/exe/taskrunner.php',
+        '/lib/exe/fetch.php',
         '?do=',
         '&do=',
         '?rev=',
@@ -16,6 +18,10 @@ config = {
     ],
     'targeted-link-rel': [
         'stylesheet'
+    ],
+    'index-files': [
+        'index.html',
+        'index.htm',
     ],
     'headers': {
         'User-Agent': 'bot'
