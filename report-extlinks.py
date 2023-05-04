@@ -22,10 +22,16 @@ for row in cur.execute('''
 SELECT url
      , status
      , filetype
+     , redirect_to
+     , redirect_from
      , note
   FROM contents
- WHERE  %s
+ WHERE %s
  ORDER BY url
 ''' % mydomains):
-    (url, status, filetype, note) = row
-    print(f'{url}\t{status}\t{filetype}\t{note}')
+    (url, status, filetype, redirect_to, redirect_from, note) = row
+    if redirect_to:
+        note = f'{note} Redirect to: {redirect_to}'
+    if redirect_from:
+        note = f'{note} Redirect from: {redirect_from}'
+    print(f'{url}\t{status}\t{filetype}\t{note.strip()}')

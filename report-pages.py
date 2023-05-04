@@ -15,7 +15,7 @@ SELECT (SELECT c1.url FROM contents as c1 WHERE c1.id = l.page)
      , c.status
   FROM links as l
   LEFT JOIN contents as c
-         ON c.id = l.link
+    ON c.id = l.link
  WHERE NOT c.status IN (200, 304, 401, 402)
  ORDER BY l.page, l.link
 '''):

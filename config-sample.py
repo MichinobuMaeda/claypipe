@@ -14,7 +14,12 @@ config = {
         '?do=',
         '&do=',
         '?rev=',
-        '&rev='
+        '&rev=',
+        'https://pinterest.com/pin/',
+        'https://twitter.com/intent/',
+        'https://www.facebook.com/sharer/',
+        'https://www.googletagmanager.com/gtag/',
+        'mailto:?Subject'
     ],
     'targeted-link-rel': [
         'stylesheet'

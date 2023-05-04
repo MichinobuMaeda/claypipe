@@ -20,7 +20,7 @@ Copy and edit `config.py`.
 cp config-sample.py config.py
 ```
 
-Save status of links in your site pages to a Sqlite database file: `links.sqlite`.
+Save status of links in your site pages to a SQLite database file: `links.sqlite`.
 
 ```bash
 python claypipe.py
