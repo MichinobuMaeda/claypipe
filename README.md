@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Python >= 3.6
+- Python >= 3.8
 
 ## Usage
 
@@ -39,7 +39,7 @@ Create GitHub repository with README.md, LICENSE and `.gitignore`.
 ```bash
 git clone git@github.com:MichinobuMaeda/claypipe.git
 cd claypipe
-echo 3.6 > .python-version
+echo 3.8 > .python-version
 python -m venv .venv
 . .venv/bin/activate
 pip install autopep8
