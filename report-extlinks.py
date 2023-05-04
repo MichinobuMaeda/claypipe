@@ -9,7 +9,7 @@ print('URL\tstatus\tfiletype\tnote')
 parsed_start = urlparse(config['start'])
 mydomains = ' AND '.join(
     map(
-        lambda s : f"url NOT LIKE 'http://{s}/%' OR url NOT LIKE 'https://{s}/%'",
+        lambda s : f"url NOT LIKE 'http://{s}/%' AND url NOT LIKE 'https://{s}/%'",
         [parsed_start.hostname] + config['domain_aliases']
     )
 )
