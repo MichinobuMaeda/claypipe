@@ -27,7 +27,7 @@ python claypipe.py
 List results as tab delimited text files.
 
 ```bash
-python report-brokenlinks.py > report-brokenlinks.log
+python report-pages.py > report-pages.log
 python report-extlinks.py > report-extlinks.log
 python report-sitecontents.py > report-sitecontents.log
 ```

@@ -3,6 +3,8 @@ import os.path
 import sqlite3
 from config import config
 
+print('page\tlink\tstatus')
+
 input = os.path.join(os.path.dirname(__file__), config['output'])
 db = sqlite3.connect(input)
 cur = db.cursor()
