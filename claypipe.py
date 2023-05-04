@@ -26,7 +26,9 @@ class HTMLLinkParser(HTMLParser):
                 (tag.lower() == 'a' and key.lower() == 'href') or
                 (tag.lower() == 'img' and key.lower() == 'src') or
                 (tag.lower() == 'script' and key.lower() == 'src') or
-                (tag.lower() == 'link' and key.lower() == 'href')
+                (tag.lower() == 'link' and key.lower() == 'href') or
+                (tag.lower() == 'iframe' and key.lower() == 'src') or
+                (tag.lower() == 'frame' and key.lower() == 'src')
             ):
                 for item in self.ignoreurl:
                     if item in val:
@@ -61,10 +63,11 @@ class Content:
         self.port = parsed.port
         self.filetype = ''
         self.status = 0
-        self.location = ''
+        self.note = ''
         self.links = []
 
         if self.path != parsed.path:
+            self.note = self.url
             self.url = self.url.replace(parsed.path, self.path)
 
         if self.path.endswith('/'):
@@ -111,7 +114,7 @@ class Content:
 
         if self.status in [301, 302, 303]:
             if 'Location' in resp.headers:
-                self.location = resp.headers['Location']
+                self.note = resp.headers['Location']
 
         if self.status != 200:
             return
@@ -168,14 +171,14 @@ class Crawler:
 
     def retrieve(self, content):
         content.retrieve(self.interval, self.domains, self.headers, self.ignoreurl, self.linkrels)
-        print(f'{content.url}\t{content.status}\t{content.filetype}\t{content.location}')
+        print(f'{content.url}\t{content.status}\t{content.filetype}\t{content.note}')
 
         try:
             cur = self.db.cursor()
             cur.execute(
-                'UPDATE contents SET status = ?, filetype = ?, location = ?'
+                'UPDATE contents SET status = ?, filetype = ?, note = ?'
                 ' WHERE url = ?',
-                (content.status, content.filetype, content.location, content.url)
+                (content.status, content.filetype, content.note, content.url)
             )
             self.db.commit()
         except:
@@ -236,7 +239,7 @@ CREATE TABLE contents (
     url TEXT UNIQUE,
     status INTEGER NOT NULL DEFAULT 0,
     filetype TEXT NOT NULL DEFAULT '',
-    location TEXT NOT NULL DEFAULT ''
+    note TEXT NOT NULL DEFAULT ''
 )
 ''')
     cur.execute('''

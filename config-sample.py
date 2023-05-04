@@ -2,12 +2,17 @@ config = {
     'start': 'https://example.com/',
     'domain_aliases': ['www.example.com'],
     'ignore-url': [
-        'https://validator.w3.org/check',
-        'https://jigsaw.w3.org/css-validator',
-        '&tab_details=view&',
-        '&tab_files=files&do=media',
-        '?do=diff&rev',
-        '?rev='
+        'https://php.net',
+        'https://validator.w3.org/check/referer',
+        'https://jigsaw.w3.org/css-validator/check/referer',
+        '/wp-admin/',
+        'https://www.dokuwiki.org/donate',
+        '/playground/',
+        '/lib/exe/taskrunner.php',
+        '?do=',
+        '&do=',
+        '?rev=',
+        '&rev='
     ],
     'targeted-link-rel': [
         'stylesheet'
