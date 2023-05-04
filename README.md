@@ -36,7 +36,7 @@ python report-sitecontents.py > report-sitecontents.log
 
 ## Appndix: Create this project
 
-Create GitHub repository with README.md, LICENSE and `.gitignore`.
+Create GitHub repository with `README.md`, `LICENSE` (MIT) and `.gitignore`.
 
 ```bash
 git clone git@github.com:MichinobuMaeda/claypipe.git
