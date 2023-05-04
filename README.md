@@ -18,7 +18,7 @@ Copy and edit `config.py`.
 cp config-sample.py config.py
 ```
 
-Save status of links in site pages to a Sqlite database file.
+Save status of links in your site pages to a Sqlite database file: `links.sqlite`.
 
 ```bash
 python claypipe.py
@@ -32,7 +32,7 @@ python report-extlinks.py > report-extlinks.log
 python report-sitecontents.py > report-sitecontents.log
 ```
 
-## Create this project
+## Appndix: Create this project
 
 Create GitHub repository with README.md, LICENSE and `.gitignore`.
 
@@ -45,5 +45,6 @@ python -m venv .venv
 pip install autopep8
 pip install pylint
 pip install chardet
+pip install pip-upgrader
 pip freeze > requirements.txt
 ```
