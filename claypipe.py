@@ -194,7 +194,7 @@ class Crawler:
         self.linkrels = linkrels
         self.indexfiles = indexfiles
 
-    def addlink(self, db, target, page=None):
+    def addTarget(self, target):
         if target.url in self.urls:
             return
 
@@ -202,7 +202,7 @@ class Crawler:
         self.contents.append(target)
 
         try:
-            cur = db.cursor()
+            cur = self.db.cursor()
             cur.execute('''
 INSERT OR IGNORE INTO contents (
        url
@@ -212,14 +212,12 @@ INSERT OR IGNORE INTO contents (
 ''',
                 [target.url]
             )
-            db.commit()
+            self.db.commit()
         except:
             print(target.url)
             traceback.print_exc(file=sys.stdout)
 
-        if not page:
-            return
-
+    def addlinks(self, page, target):
         try:
             cur = self.db.cursor()
             cur.execute('''
@@ -247,7 +245,7 @@ INSERT OR IGNORE INTO links (
             if content.redirect_to:
                 target = Content(content.note, content)
                 target.redirect_from = content.url
-                self.addlink(db, target)
+                self.addTarget(target)
 
         try:
             cur = self.db.cursor()
@@ -269,7 +267,8 @@ UPDATE contents
             traceback.print_exc(file=sys.stdout)
         
         for target in content.links:
-            self.addlink(db, target, content)
+            self.addTarget(target)
+            self.addlinks(content, target)
     
     def crawl(self):
         while len(self.contents):
@@ -286,7 +285,7 @@ def initdb(path):
     open(path, 'a').close()
     db = sqlite3.connect(path)
     cur = db.cursor()
-    # SQLite's soecification:
+    # SQLite's specification:
     #   INTEGER PRIMARY KEY is ROWID.
     #   ROWID is auto inclement number.
     cur.execute('''
